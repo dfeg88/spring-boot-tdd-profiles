@@ -2,6 +2,7 @@ package com.moneysupermarket.profilesapitdd.service;
 
 import com.moneysupermarket.profilesapitdd.model.CurrentTime;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.time.Clock;
@@ -10,7 +11,7 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @AllArgsConstructor
-@Service
+@Component
 public class CurrentTimeService {
 
     private Clock clock;

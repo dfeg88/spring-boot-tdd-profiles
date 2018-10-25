@@ -12,14 +12,14 @@ import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 class CurrentTimeServiceTest {
 
-    Clock clock;
-
+    private Clock clock;
     private CurrentTimeService currentTimeService;
-
     private ZoneId canadaTimeZone = ZoneId.of("UTC-7");
 
     @BeforeEach
@@ -34,8 +34,7 @@ class CurrentTimeServiceTest {
         CurrentTime actual = currentTimeService.getCurrentTimes(canadaTimeZone);
         CurrentTime expected = new CurrentTime("12:00:00", "05:00:00");
 
-        Assertions.assertEquals(actual, expected);
-
+        assertEquals(actual, expected);
     }
 
 }

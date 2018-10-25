@@ -18,7 +18,6 @@ public class CurrentTimeController {
 
     @GetMapping("/current-times")
     public CurrentTime getCurrentTimes() {
-        System.out.println(currentTimeService.getCurrentTimes(ZoneId.of("UTC-7")));
         return currentTimeService.getCurrentTimes(ZoneId.of("UTC-7"));
     }
 

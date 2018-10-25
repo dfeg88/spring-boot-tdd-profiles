@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @AllArgsConstructor
 @Component
 public class ProfileService {
@@ -14,5 +16,9 @@ public class ProfileService {
 
     public void save(Profile profile) {
         profileRepository.save(profile);
+    }
+
+    public Optional<Profile> getById(String id) {
+        return profileRepository.findById(id);
     }
 }

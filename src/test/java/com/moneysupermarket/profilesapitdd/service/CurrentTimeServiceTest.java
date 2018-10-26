@@ -32,7 +32,7 @@ class CurrentTimeServiceTest {
     @Test
     void test_getCurrentTimes() {
         CurrentTime actual = currentTimeService.getCurrentTimes(canadaTimeZone);
-        CurrentTime expected = new CurrentTime("12:00:00", "05:00:00");
+        CurrentTime expected = new CurrentTime("13:00:00", "05:00:00");
 
         assertEquals(actual, expected);
     }

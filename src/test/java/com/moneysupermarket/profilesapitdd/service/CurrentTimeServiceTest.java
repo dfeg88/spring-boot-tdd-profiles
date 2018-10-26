@@ -1,7 +1,6 @@
 package com.moneysupermarket.profilesapitdd.service;
 
 import com.moneysupermarket.profilesapitdd.model.CurrentTime;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +11,7 @@ import java.time.Clock;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})

@@ -25,6 +25,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -70,7 +71,7 @@ class ProfileControllerTest {
     }
 
     @Test
-    void shouldSaveValidProfileWith200Response() throws Exception {
+    void save_shouldSaveValidProfileWith200Response() throws Exception {
         String profileJson = "{\n"
                 + "\"address\":{\n"
                 + "\"houseNumber\": \"31\",\n" + "\"street\": \"Street\",\n"
@@ -89,7 +90,7 @@ class ProfileControllerTest {
     }
 
     @Test
-    void shouldReturn400ResponseForInvalidProfilePayload() throws Exception {
+    void save_shouldReturn400ResponseForInvalidProfilePayload() throws Exception {
         String invalidProfileJson = "";
 
         this.mockMvc.
@@ -100,7 +101,7 @@ class ProfileControllerTest {
     }
 
     @Test
-    void shouldReturnProfileWithValidId() throws Exception {
+    void getById_shouldReturnProfileWithValidId() throws Exception {
         when(profileService.getById(profileId)).thenReturn(Optional.of(fakeProfile));
 
         this.mockMvc
@@ -111,7 +112,7 @@ class ProfileControllerTest {
     }
 
     @Test
-    void shouldReturn404StatusIfProfileNotFound() throws Exception {
+    void getById_shouldReturn404StatusIfProfileNotFound() throws Exception {
         this.mockMvc
                 .perform(get("/profile/" + 2)
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
@@ -119,7 +120,7 @@ class ProfileControllerTest {
     }
 
     @Test
-    void shouldReturnListOfProfilesWith200Response() throws Exception {
+    void getAll_shouldReturnListOfProfilesWith200Response() throws Exception {
         when(profileService.getAll()).thenReturn(profiles);
 
         this.mockMvc
@@ -132,12 +133,27 @@ class ProfileControllerTest {
     }
 
     @Test
-    void shouldReturn404NotFoundIfNoProfiles() throws Exception {
+    void getAll_shouldReturn404NotFoundIfNoProfiles() throws Exception {
         when(profileService.getAll()).thenReturn(new LinkedList<>());
 
         this.mockMvc
                 .perform(get("/profiles")
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void delete_verifyCallToService() {
+        profileController.delete(profileId);
+        verify(profileService).delete(profileId);
+    }
+
+    @Test
+    void delete_shouldDeleteProfileAndReturn200StatusIfValidProfileId() throws Exception {
+        this.mockMvc
+                .perform(delete("/profile/" + profileId)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON))
+                 .andExpect(status().isOk());
     }
 }

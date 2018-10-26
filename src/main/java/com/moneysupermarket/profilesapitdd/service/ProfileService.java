@@ -3,14 +3,13 @@ package com.moneysupermarket.profilesapitdd.service;
 import com.moneysupermarket.profilesapitdd.model.Profile;
 import com.moneysupermarket.profilesapitdd.repository.ProfileRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-@Component
+@Service
 public class ProfileService {
 
     private ProfileRepository profileRepository;

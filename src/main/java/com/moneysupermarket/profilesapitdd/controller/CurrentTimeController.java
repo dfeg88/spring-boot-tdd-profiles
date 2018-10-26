@@ -11,7 +11,7 @@ import java.time.ZoneId;
 
 @AllArgsConstructor
 @RestController
-@CrossOrigin(origins = "http://localhost:8081")
+@CrossOrigin(origins = {"http://localhost:8081", "http://localhost:5000"})
 public class CurrentTimeController {
 
     private CurrentTimeService currentTimeService;

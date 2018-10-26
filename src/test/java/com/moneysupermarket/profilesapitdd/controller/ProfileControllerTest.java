@@ -101,7 +101,7 @@ class ProfileControllerTest {
     }
 
     @Test
-    void getById_shouldReturnProfileWithValidId() throws Exception {
+    void getById_shouldReturnProfileIfValidIdAndReturn200Response() throws Exception {
         when(profileService.getById(profileId)).thenReturn(Optional.of(fakeProfile));
 
         this.mockMvc

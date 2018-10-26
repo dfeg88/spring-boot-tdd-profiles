@@ -30,7 +30,5 @@ public class ProfileService {
         return profileRepository.save(profile);
     }
 
-    public void delete(String id) {
-        profileRepository.deleteById(id);
-    }
+    public void delete(String id) { profileRepository.deleteById(id); }
 }

@@ -39,4 +39,23 @@ public class ProfileServiceTest {
         underTest.getById(anyString());
         verify(profileRepository).findById(anyString());
     }
+
+    @Test
+    void shouldGetAllProfiles() {
+        underTest.getAll();
+        verify(profileRepository).findAll();
+    }
+
+    @Test
+    void shouldUpdateProfile() {
+        underTest.update(profile);
+        verify(profileRepository).save(profile);
+    }
+
+    @Test
+    void verifyThatDeleteMethodIsCalled() {
+        underTest.delete(anyString());
+        verify(profileRepository).deleteById(anyString());
+    }
+
 }

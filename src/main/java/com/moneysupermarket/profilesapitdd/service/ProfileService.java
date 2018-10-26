@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -20,5 +21,17 @@ public class ProfileService {
 
     public Optional<Profile> getById(String id) {
         return profileRepository.findById(id);
+    }
+
+    public List<Profile> getAll() {
+        return profileRepository.findAll();
+    }
+
+    public Profile update(Profile profile) {
+        return profileRepository.save(profile);
+    }
+
+    public void delete(String id) {
+        profileRepository.deleteById(id);
     }
 }

@@ -3,6 +3,7 @@ package com.moneysupermarket.profilesapitdd.model;
 import lombok.*;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString

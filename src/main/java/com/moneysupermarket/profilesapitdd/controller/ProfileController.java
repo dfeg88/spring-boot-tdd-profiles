@@ -31,8 +31,13 @@ public class ProfileController {
     }
 
     @GetMapping("/profiles")
-    public List<Profile> getAll() {
-        return profileService.getAll();
+    public ResponseEntity<List<Profile>> getAll() {
+        List<Profile> profiles = profileService.getAll();
+        if (profiles.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
     @GetMapping("/profile/{id}")

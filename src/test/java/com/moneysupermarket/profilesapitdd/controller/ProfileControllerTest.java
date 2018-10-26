@@ -18,22 +18,23 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Optional;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith({SpringExtension.class, MockitoExtension.class})
 @WebMvcTest(ProfileController.class)
 class ProfileControllerTest {
 
     private ProfileController profileController;
-    private Profile getProfile;
+    private Profile fakeProfile;
 
     @Autowired
     private MockMvc mockMvc;
@@ -44,11 +45,16 @@ class ProfileControllerTest {
     @Mock
     private Profile profile;
 
+    private List<Profile> profiles;
+
     private static final String profileId = "1";
 
     @BeforeEach
     void init() {
-        getProfile = new Profile("", new Customer(), new Address(), new Car());
+        fakeProfile = new Profile("", new Customer(), new Address(), new Car());
+        profiles = new LinkedList<>();
+        profiles.add(fakeProfile);
+
         profileController = new ProfileController(profileService);
     }
 
@@ -71,9 +77,9 @@ class ProfileControllerTest {
                 + "\"town\": \"Manch\",\n" + "\"city\": \"Manch\",\n" + "\"postcode\": \"M24 223\"\n" + "},\n"
                 + "\"car\": {\n"
                 + "\"registrationNumber\":\"CFM 139W\",\n" + "\"make\": \"BMW\",\n"
-                + "\"model\": \"M4\",\n" + "\"engineSize\": \"1\"\n" + "},\n"
+                + "\"model\": \"M4\",\n" + "\"engineSize\": \"9000\"\n" + "},\n"
                 + "\"customer\": {\n"
-                + "\"firstName\": \"Dan\",\n" + "\"lastName\": \"Graef\"\n" + "}\n" + "}";
+                + "\"firstName\": \"Dan\",\n" + "\"lastName\": \"F\"\n" + "}\n" + "}";
 
         this.mockMvc.
                 perform(post("/profile")
@@ -95,12 +101,11 @@ class ProfileControllerTest {
 
     @Test
     void shouldReturnProfileWithValidId() throws Exception {
-        when(profileService.getById(profileId)).thenReturn(Optional.of(getProfile));
+        when(profileService.getById(profileId)).thenReturn(Optional.of(fakeProfile));
 
         this.mockMvc
                 .perform(get("/profile/" + profileId)
                     .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8));
     }
@@ -110,7 +115,29 @@ class ProfileControllerTest {
         this.mockMvc
                 .perform(get("/profile/" + 2)
                         .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    void shouldReturnListOfProfilesWith200Response() throws Exception {
+        when(profileService.getAll()).thenReturn(profiles);
+
+        this.mockMvc
+                .perform(get("/profiles")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.*").isArray())
+                .andExpect(jsonPath("$.*", hasSize(1)));
+    }
+
+    @Test
+    void shouldReturn404NotFoundIfNoProfiles() throws Exception {
+        when(profileService.getAll()).thenReturn(new LinkedList<>());
+
+        this.mockMvc
+                .perform(get("/profiles")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 }

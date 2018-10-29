@@ -29,31 +29,31 @@ public class ProfileServiceTest {
     }
 
     @Test
-    void shouldSaveProfile() {
+    void save_shouldSaveProfile() {
         underTest.save(profile);
         verify(profileRepository).save(profile);
     }
 
     @Test
-    void shouldGetProfileBasedOnId() {
+    void getById_shouldGetProfileBasedOnId() {
         underTest.getById(anyString());
         verify(profileRepository).findById(anyString());
     }
 
     @Test
-    void shouldGetAllProfiles() {
+    void getAll_shouldGetAllProfiles() {
         underTest.getAll();
         verify(profileRepository).findAll();
     }
 
     @Test
-    void shouldUpdateProfile() {
+    void update_shouldUpdateProfile() {
         underTest.update(profile);
         verify(profileRepository).save(profile);
     }
 
     @Test
-    void verifyThatDeleteMethodIsCalled() {
+    void delete_verifyThatDeleteMethodIsCalled() {
         underTest.delete(anyString());
         verify(profileRepository).deleteById(anyString());
     }

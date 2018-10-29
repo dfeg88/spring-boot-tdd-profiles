@@ -26,8 +26,8 @@ public class ProfileService {
         return profileRepository.findAll();
     }
 
-    public Profile update(Profile profile) {
-        return profileRepository.save(profile);
+    public void update(Profile profile) {
+        profileRepository.save(profile);
     }
 
     public void delete(String id) { profileRepository.deleteById(id); }

@@ -41,7 +41,7 @@ public class ProfileController {
     public ResponseEntity<Profile> get(@PathVariable String id) {
         Optional<Profile> profile = profileService.getById(id);
 
-        return !profile.isPresent() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(profile.get(), HttpStatus.OK);
+        return profile.isPresent() ? new ResponseEntity<>(profile.get(), HttpStatus.OK) : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/profile/{id}")

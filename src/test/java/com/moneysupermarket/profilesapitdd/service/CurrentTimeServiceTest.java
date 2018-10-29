@@ -18,19 +18,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class CurrentTimeServiceTest {
 
     private Clock clock;
-    private CurrentTimeService currentTimeService;
+    private CurrentTimeService underTest;
     private ZoneId canadaTimeZone = ZoneId.of("UTC-7");
 
     @BeforeEach
     void init() {
         ZoneId utc = ZoneId.of("UTC");
         clock = Clock.fixed(ZonedDateTime.of(2000,1,1,12,0,0,0, utc).toInstant(),utc);
-        currentTimeService = new CurrentTimeService(clock);
+        underTest = new CurrentTimeService(clock);
     }
 
     @Test
     void test_getCurrentTimes() {
-        CurrentTime actual = currentTimeService.getCurrentTimes(canadaTimeZone);
+        CurrentTime actual = underTest.getCurrentTimes(canadaTimeZone);
         CurrentTime expected = new CurrentTime("13:00:00", "05:00:00");
 
         assertEquals(actual, expected);

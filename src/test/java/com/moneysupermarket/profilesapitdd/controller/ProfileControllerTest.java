@@ -34,9 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ProfileController.class)
 class ProfileControllerTest {
 
-    private ProfileController profileController;
-    private Profile fakeProfile;
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -46,6 +43,8 @@ class ProfileControllerTest {
     @Mock
     private Profile profile;
 
+    private ProfileController underTest;
+    private Profile fakeProfile;
     private List<Profile> profiles;
 
     private static final String profileId = "1";
@@ -56,17 +55,18 @@ class ProfileControllerTest {
         profiles = new LinkedList<>();
         profiles.add(fakeProfile);
 
-        profileController = new ProfileController(profileService);
+        underTest = new ProfileController(profileService);
     }
 
     @AfterEach
     void tearDown() {
-        profileController = null;
+        underTest = null;
+        fakeProfile = null;
     }
 
     @Test
     void shouldCallServiceSaveMethod() {
-        profileController.save(profile);
+        underTest.save(profile);
         verify(profileService).save(profile);
     }
 
@@ -115,7 +115,7 @@ class ProfileControllerTest {
     void getById_shouldReturn404StatusIfProfileNotFound() throws Exception {
         this.mockMvc
                 .perform(get("/profile/" + 2)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound());
     }
 
@@ -125,7 +125,7 @@ class ProfileControllerTest {
 
         this.mockMvc
                 .perform(get("/profiles")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
+                    .contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.*").isArray())
@@ -133,18 +133,18 @@ class ProfileControllerTest {
     }
 
     @Test
-    void getAll_shouldReturn404NotFoundIfNoProfiles() throws Exception {
+    void getAll_shouldReturn204NoContentIfNoProfiles() throws Exception {
         when(profileService.getAll()).thenReturn(new LinkedList<>());
 
         this.mockMvc
                 .perform(get("/profiles")
-                        .contentType(MediaType.APPLICATION_JSON_UTF8))
-                .andExpect(status().isNotFound());
+                    .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(status().isNoContent());
     }
 
     @Test
     void delete_verifyCallToService() {
-        profileController.delete(profileId);
+        underTest.delete(profileId);
         verify(profileService).delete(profileId);
     }
 

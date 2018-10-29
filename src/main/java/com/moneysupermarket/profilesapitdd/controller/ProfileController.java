@@ -33,22 +33,15 @@ public class ProfileController {
     @GetMapping("/profiles")
     public ResponseEntity<List<Profile>> getAll() {
         List<Profile> profiles = profileService.getAll();
-        if (profiles.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
-        return new ResponseEntity<>(profiles, HttpStatus.OK);
+        return profiles.isEmpty() ? new ResponseEntity<>(HttpStatus.NO_CONTENT) : new ResponseEntity<>(profiles, HttpStatus.OK);
     }
 
     @GetMapping("/profile/{id}")
     public ResponseEntity<Profile> get(@PathVariable String id) {
         Optional<Profile> profile = profileService.getById(id);
 
-        if (!profile.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
-        return new ResponseEntity<>(profile.get(), HttpStatus.OK);
+        return !profile.isPresent() ? new ResponseEntity<>(HttpStatus.NOT_FOUND) : new ResponseEntity<>(profile.get(), HttpStatus.OK);
     }
 
     @DeleteMapping("/profile/{id}")

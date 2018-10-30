@@ -29,7 +29,6 @@ repositories {
 	mavenCentral()
 }
 
-
 dependencies {
 	// Spring
 	implementation('org.springframework.boot:spring-boot-starter-web')
@@ -49,7 +48,7 @@ dependencies {
 	testCompile("org.mockito:mockito-core:${mockitoVersion}")
 	testCompile("org.hamcrest:hamcrest-all:${hamcrestVersion}")
 	testCompile("org.assertj:assertj-core:${assertJVersion}")
-//
+
 	// Jackson
 	compileOnly "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
 

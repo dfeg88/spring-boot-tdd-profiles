@@ -18,7 +18,7 @@ public class CurrentTimeService {
 
     public CurrentTime getCurrentTimes(ZoneId timezone) {
         return new CurrentTime(
-                ZonedDateTime.now(clock.withZone(ZoneId.of("UTC+1"))).format(DateTimeFormatter.ofPattern("HH:mm:ss")),
+                ZonedDateTime.now(clock).format(DateTimeFormatter.ofPattern("HH:mm:ss")),
                 ZonedDateTime.now(clock.withZone(timezone)).format(DateTimeFormatter.ofPattern("HH:mm:ss"))
         );
     }
